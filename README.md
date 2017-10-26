@@ -37,7 +37,7 @@ As you will see, the code is far from being ideal. Everything is put in App.js, 
 ## Bonus tasks
 
 - An **Employee** object has unused property - "maxTeams". This is the only difference between **Employee** and **Manager**. Let's use this property. Add a validation: do not allow to add employee to the team if he already exceeded this limit.
-- Persisit the team selection across page refresh
+- Persist the team selection across page refresh
 - Create shareable links with team preselection (e.g. add routing)
 
 ## Rules

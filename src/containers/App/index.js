@@ -13,8 +13,8 @@ class App extends Component {
     this.props.fetchData();
   }
 
-  getTeams() {
-    return filterBy(this.props.teams, "selected").map(team => (
+  getTeams = () =>
+    filterBy(this.props.teams, "selected").map(team => (
       <TeamTable
         team={team}
         onMemberRemove={member =>
@@ -23,7 +23,15 @@ class App extends Component {
         key={team.id}
       />
     ));
-  }
+
+  getTeamSelector = () => (
+    <TeamsSelector
+      teams={this.props.teams}
+      selectTeam={this.props.selectTeam.bind(this)}
+    />
+  );
+
+  getEmployeeList = () => <EmployeeList employees={this.props.employees} />;
 
   render() {
     const teams = this.getTeams();
@@ -36,11 +44,7 @@ class App extends Component {
         <div className="wrapper">
           <div className="teams-container">{teams}</div>
           <div className="tools">
-            <TeamsSelector
-              teams={this.props.teams}
-              selectTeam={this.props.selectTeam.bind(this)}
-            />
-            <EmployeeList employees={this.props.employees} />
+            {this.getTeamSelector()} {this.getEmployeeList()}
           </div>
         </div>
       </div>
@@ -48,20 +52,15 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    teams: state.data.teams,
-    positions: state.data.positions,
-    employees: state.data.employees
-  };
-};
+const mapStateToProps = state => ({
+  teams: state.data.teams,
+  employees: state.data.employees
+});
 
-const mapDispatchToProps = dispatch => {
-  return {
-    selectTeam: bindActionCreators(selectTeam, dispatch),
-    removeMember: bindActionCreators(removeMember, dispatch),
-    fetchData: bindActionCreators(fetchData, dispatch)
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  selectTeam: bindActionCreators(selectTeam, dispatch),
+  removeMember: bindActionCreators(removeMember, dispatch),
+  fetchData: bindActionCreators(fetchData, dispatch)
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -27,3 +27,17 @@ export const removeMember = (team, member) => {
     });
   };
 };
+
+export const addMemeberById = (team, memberId) => {
+  return (dispatch, getState) => {
+    const { data: { employees = [] } } = getState();
+    const member = employees.find(i => i.id === +memberId);
+    dispatch({
+      type: "ADD_MEMBER",
+      payload: {
+        team,
+        member
+      }
+    });
+  };
+};

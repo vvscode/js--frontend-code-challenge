@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { selectTeam, removeMember, fetchData } from "../../actions/teams";
+import {
+  selectTeam,
+  removeMember,
+  fetchData,
+  addMemeberById
+} from "../../actions/teams";
 
 import filterBy from "../../utils/filterBy";
 import { TeamTable, TeamsSelector } from "../../components/Team";
@@ -24,6 +29,7 @@ class App extends Component {
         team={team}
         onMemberRemove={member =>
           this.props.removeMember.bind(this, team, member)}
+        onDragEmployee={member => this.props.addMemeberById(team, member)}
         className="team-table"
         key={team.id}
       />
@@ -71,6 +77,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   selectTeam: bindActionCreators(selectTeam, dispatch),
   removeMember: bindActionCreators(removeMember, dispatch),
+  addMemeberById: bindActionCreators(addMemeberById, dispatch),
   fetchData: bindActionCreators(fetchData, dispatch)
 });
 

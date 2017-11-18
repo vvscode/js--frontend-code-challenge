@@ -1,6 +1,6 @@
 import React from "react";
 
-const EmployeesList = ({ members = [], onRemove, className }) => {
+const TeamEmployeesTable = ({ members = [], onRemove, className }) => {
   return (
     <div className={className}>
       {members.map(member => (
@@ -16,5 +16,5 @@ const EmployeesList = ({ members = [], onRemove, className }) => {
   );
 };
 
-export { EmployeesList };
-export default EmployeesList;
+export { TeamEmployeesTable };
+export default TeamEmployeesTable;

@@ -1,8 +1,8 @@
 import React from "react";
-import { EmployeesList } from "../Employee";
+import { TeamEmployeesTable } from "../Employee";
 
 const members = (team, onMemberRemove) => (
-  <EmployeesList
+  <TeamEmployeesTable
     members={team.members}
     onRemove={onMemberRemove}
     className="table"

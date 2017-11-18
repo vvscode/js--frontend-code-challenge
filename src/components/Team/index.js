@@ -1,1 +1,2 @@
-export * from './TeamTable';
+export * from "./TeamTable";
+export * from "./TeamsSelector";

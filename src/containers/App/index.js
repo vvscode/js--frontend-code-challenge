@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { selectTeam, removeMember, fetchData } from "../../actions/teams";
 
-import { TeamTable } from "../../components/Team";
+import filterBy from "../../utils/filterBy";
+import { TeamTable, TeamsSelector } from "../../components/Team";
 
 class App extends Component {
   componentDidMount() {
@@ -12,17 +13,15 @@ class App extends Component {
   }
 
   getTeams() {
-    return this.props.teams
-      .filter(team => team.selected)
-      .map(team => (
-        <TeamTable
-          team={team}
-          onMemberRemove={member =>
-            this.props.removeMember.bind(this, team, member)}
-          className="team-table"
-          key={team.id}
-        />
-      ));
+    return filterBy(this.props.teams, "selected").map(team => (
+      <TeamTable
+        team={team}
+        onMemberRemove={member =>
+          this.props.removeMember.bind(this, team, member)}
+        className="team-table"
+        key={team.id}
+      />
+    ));
   }
 
   render() {
@@ -36,20 +35,10 @@ class App extends Component {
         <div className="wrapper">
           <div className="teams-container">{teams}</div>
           <div className="tools">
-            <div className="teams">
-              <h3>Teams</h3>
-              <ul className="list">
-                {this.props.teams.map(team => (
-                  <li
-                    onClick={this.props.selectTeam.bind(this, team)}
-                    className={`team-item ${team.selected ? "selected" : ""}`}
-                    key={team.id}
-                  >
-                    {team.name} ({team.members.length})
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <TeamsSelector
+              teams={this.props.teams}
+              selectTeam={this.props.selectTeam.bind(this)}
+            />
             <div className="devs">
               <h3>Employees</h3>
               <ul className="list">

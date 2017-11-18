@@ -7,10 +7,15 @@ import { selectTeam, removeMember, fetchData } from "../../actions/teams";
 import filterBy from "../../utils/filterBy";
 import { TeamTable, TeamsSelector } from "../../components/Team";
 import { EmployeeList } from "../../components/Employee";
+import { Spinner } from "../../components/Loader";
 
 class App extends Component {
+  state = {
+    isDataLoaded: false
+  };
+
   componentDidMount() {
-    this.props.fetchData();
+    this.props.fetchData().then(() => this.setState({ isDataLoaded: true }));
   }
 
   getTeams = () =>
@@ -33,7 +38,13 @@ class App extends Component {
 
   getEmployeeList = () => <EmployeeList employees={this.props.employees} />;
 
+  getLoadingState = () => <Spinner />;
+
   render() {
+    if (!this.state.isDataLoaded) {
+      return this.getLoadingState();
+    }
+
     const teams = this.getTeams();
 
     return (

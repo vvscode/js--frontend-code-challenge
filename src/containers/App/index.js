@@ -6,6 +6,7 @@ import { selectTeam, removeMember, fetchData } from "../../actions/teams";
 
 import filterBy from "../../utils/filterBy";
 import { TeamTable, TeamsSelector } from "../../components/Team";
+import { EmployeeList } from "../../components/Employee";
 
 class App extends Component {
   componentDidMount() {
@@ -39,17 +40,7 @@ class App extends Component {
               teams={this.props.teams}
               selectTeam={this.props.selectTeam.bind(this)}
             />
-            <div className="devs">
-              <h3>Employees</h3>
-              <ul className="list">
-                {this.props.employees.map(emp => (
-                  <li className="emp-item" key={emp.id}>
-                    {emp.name} -{" "}
-                    <span className="position">{emp.position.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <EmployeeList employees={this.props.employees} />
           </div>
         </div>
       </div>

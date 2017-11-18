@@ -4,6 +4,8 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {selectTeam, removeMember, fetchData} from '../../actions/teams';
 
+import { EmployeesList } from '../../components/Employee';
+
 
 class App extends Component {
 
@@ -12,21 +14,11 @@ class App extends Component {
   }
 
   getTeams() {
-    const members = team => team.members.map(member => (
-      <div key={member.id} className="table__row">
-        <div className="table__cell">{member.name}</div>
-        <div className="table__cell fixed">{member.position.name}</div>
-        <div className="table__cell fixed">
-          <button onClick={this.props.removeMember.bind(this, team, member)}>X</button>
-        </div>
-      </div>
-    ));
+    const members = team => <EmployeesList members={team.members} onRemove={(member) => this.props.removeMember.bind(this, team, member)} className="table" />;
     const tables = this.props.teams.filter(team => team.selected).map(team => (
       <div className="team-table" key={team.id}>
         <h2>{team.name} ({team.members.length})</h2>
-        <div className="table">
-          {members(team)}
-        </div>
+        {members(team)}
       </div>
     ));
     return tables;

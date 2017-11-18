@@ -37,15 +37,22 @@ export default function(state = initialState, action) {
     }
 
     case "ADD_MEMBER": {
+      const { member, team: targetTeam } = action.payload;
       const teams = [...state.teams];
-      const team = teams.find(t => t.id === action.payload.team.id);
-      if (
-        !action.payload.member ||
-        team.members.includes(action.payload.member)
-      ) {
+      const team = teams.find(t => t.id === targetTeam.id);
+      if (member.maxTeams) {
+        const numberOfCurrentMemberTeams = teams.filter(t =>
+          t.members.includes(member)
+        ).length;
+
+        if (numberOfCurrentMemberTeams >= member.maxTeams) {
+          return state;
+        }
+      }
+      if (!action.payload.member || team.members.includes(member)) {
         return state;
       }
-      team.members.unshift(action.payload.member);
+      team.members.unshift(member);
       return { ...state, teams };
     }
 
